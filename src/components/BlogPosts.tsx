@@ -5,7 +5,7 @@ interface Post {
   id: number;
   title: string;
   content: string;
-  date: string;
+  createdAt: string;
 }
 
 export const BlogPosts: React.FC = () => {
@@ -32,7 +32,7 @@ export const BlogPosts: React.FC = () => {
     <div className="space-y-6 flex flex-col items-center">
       {posts.map((post: Post) => (
         <div key={post.id} className="w-full max-w-md">
-          <BlogPost title={post.title} content={post.content} date={post.date} />
+          <BlogPost title={post.title} content={post.content} date={post.createdAt} />
         </div>
       ))}
     </div>

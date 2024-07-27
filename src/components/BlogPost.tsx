@@ -8,23 +8,36 @@ interface BlogPostProps {
 }
 
 export const BlogPost: React.FC<BlogPostProps> = ({ title, content, date }) => {
+  const dateDate = new Date(date);
+
+  // 日本時間に変換
+  const options: Intl.DateTimeFormatOptions = {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+
+  // フォーマット
+  const formattedDateTime = new Intl.DateTimeFormat("ja-JP", options)
+    .format(dateDate)
+    .replace(/\//g, "-")
+    .replace(",", "");
+
   return (
-    <Card className="w-full">
-      <CardHeader className="flex justify-between items-baseline pb-2">
-        <h2 className="text-xl font-semibold">{title}</h2>
-        <p className="text-sm text-gray-500 whitespace-nowrap">{date}</p>
-      </CardHeader>
-      <CardContent>
-        <p>{content}</p>
-      </CardContent>
-      <CardFooter>
-        {/* 
-        <div className="flex justify-end space-x-4 w-full">
-          <button className="px-4 py-2 bg-gray-200 rounded">Cancel</button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded">Deploy</button>
+    <Card className="w-full bg-white shadow-sm border border-gray-100">
+      <CardHeader className="flex justify-between items-center pb-2">
+        <div className="flex justify-between w-full">
+          <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+          <p className="text-sm text-gray-500 whitespace-nowrap">{formattedDateTime}</p>
         </div>
-        */}
-      </CardFooter>
+      </CardHeader>
+      <CardContent className="bg-white">
+        <p className="text-gray-600">{content}</p>
+      </CardContent>
     </Card>
   );
 };
