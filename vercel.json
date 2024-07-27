@@ -1,0 +1,3 @@
+{
+  "buildCommand": "prisma generate && astro check && astro build"
+}
