@@ -1,21 +1,17 @@
-import React from 'react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardFooter,
-} from "@/components/ui/card"
+import React from "react";
+import { Card, CardContent, CardHeader, CardFooter } from "@/components/ui/card";
 
 interface BlogPostProps {
+  title: string;
   content: string;
   date: string;
 }
 
-export const BlogPost: React.FC<BlogPostProps> = ({ content, date }) => {
+export const BlogPost: React.FC<BlogPostProps> = ({ title, content, date }) => {
   return (
     <Card className="w-full">
       <CardHeader className="flex justify-between items-baseline pb-2">
-        <h2 className="text-xl font-semibold">title</h2>
+        <h2 className="text-xl font-semibold">{title}</h2>
         <p className="text-sm text-gray-500 whitespace-nowrap">{date}</p>
       </CardHeader>
       <CardContent>
