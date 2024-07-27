@@ -17,7 +17,9 @@ const CreatePostButton = () => {
     // ここで投稿データを処理します（例：APIに送信するなど）
     console.log('投稿データ:', { title, content });
     try {
-      const response = await fetch('/api/hello');
+      const params = {method : "POST", body : JSON.stringify({ title, content, userId: "1"})}; //userは自分だけの想定
+
+      const response = await fetch('/api/create-blog', params);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
