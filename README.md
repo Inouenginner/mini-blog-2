@@ -1,5 +1,11 @@
 # mini-blog-2
 
+## 立ち上げ方
+```windows
+vercel dev
+npm run dev
+```で立ち上がる？
+
 ## 使用技術
 
 | 対象          | 使用技術                                      |
