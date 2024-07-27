@@ -1,17 +1,8 @@
 ---
 //　絶対消すな！！！
 import '@/styles/globals.css'
-
-import { BlogPost } from '../components/BlogPost';
-import { posts } from '../data/posts';
 import CreatePostButton from '../components/CreatePostButton';
-
-
-interface Post {
-  id: number;
-  content: string;
-  date: string;
-}
+import { BlogPosts } from '@/components/BlogPosts';
 
 ---
 
@@ -26,13 +17,7 @@ interface Post {
 <body class="bg-gray-100 min-h-screen p-8">
     <main class="container mx-auto">
         <h1 class="text-3xl font-bold mb-8 text-center">短文ブログ</h1>
-        <div class="space-y-6 flex flex-col items-center">
-            {posts.map((post: Post) => (
-                <div class="w-full max-w-md">
-                    <BlogPost content={post.content} date={post.date} />
-                </div>
-            ))}
-        </div>
+        <BlogPosts client:load/>
     </main>
 
 	<CreatePostButton client:load/>
