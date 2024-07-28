@@ -3,11 +3,11 @@ services:
     image: postgres:14
     container_name: postgres_mini-blog-2
     ports:
-      - 5433:5433
+      - 5432:5432
     volumes:
       - db-store:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: 'johndoe'
-      POSTGRES_PASSWORD: 'randompassword'
+      POSTGRES_USER: "johndoe"
+      POSTGRES_PASSWORD: "randompassword"
 volumes:
   db-store:
