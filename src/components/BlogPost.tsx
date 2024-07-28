@@ -29,15 +29,20 @@ export const BlogPost: React.FC<BlogPostProps> = ({ title, content, date }) => {
 
   return (
     <Card className="w-full bg-white shadow-sm border border-gray-100">
-      <CardHeader className="flex justify-between items-center pb-2">
-        <div className="flex justify-between w-full">
-          <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
-          <p className="text-sm text-gray-500 whitespace-nowrap">{formattedDateTime}</p>
-        </div>
-      </CardHeader>
-      <CardContent className="bg-white">
-        <p className="text-gray-600">{content}</p>
+      {title && (
+        <CardHeader className="flex justify-between items-center pb-0 pt-4">
+          <div className="flex justify-between w-full">
+            <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
+          </div>
+        </CardHeader>
+      )}
+      <CardContent className="bg-white py-4 rounded-lg">
+        <p className="text-gray-800">{content}</p>
       </CardContent>
+      <hr className="border-dashed" />
+      <p className="text-sm text-gray-500 whitespace-nowrap pr-6 py-2 text-right">
+        {formattedDateTime}
+      </p>
     </Card>
   );
 };

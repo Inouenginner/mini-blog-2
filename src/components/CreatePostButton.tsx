@@ -14,14 +14,22 @@ const CreatePostButton = () => {
 
   const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
+    if (!content) {
+      throw new Error("内容は入力してください");
+    }
     try {
-      const params = { method: "POST", body: JSON.stringify({ title, content, userId: "1" }) }; //userは自分だけの想定
+      const params = {
+        method: "POST",
+        body: JSON.stringify({ title, content, userId: "1" }),
+      };
+      //userは自分だけの想定
 
       const response = await fetch("/api/blog", params);
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
+      alert("投稿が完了しました");
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
@@ -53,12 +61,12 @@ const CreatePostButton = () => {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  required
                 />
               </div>
               <div className="mb-4">
                 <label htmlFor="content" className="block text-sm font-medium text-gray-700">
                   内容
+                  <span className="text-red-600">* </span>
                 </label>
                 <textarea
                   id="content"
