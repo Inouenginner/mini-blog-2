@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BlogPost } from "../components/BlogPost";
+import { Loading } from "./Loading ";
 
 interface Post {
   id: number;
@@ -27,6 +28,9 @@ export const BlogPosts: React.FC = () => {
 
     fetchPosts();
   }, []);
+  if (posts.length === 0) {
+    return <Loading />;
+  }
 
   return (
     <div className="space-y-6 flex flex-col items-center">
