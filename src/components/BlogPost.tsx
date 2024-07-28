@@ -37,7 +37,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ title, content, date }) => {
         </CardHeader>
       )}
       <CardContent className="bg-white py-4 rounded-lg">
-        <p className="text-gray-800">{content}</p>
+        <p className="text-gray-800 whitespace-pre-wrap">{content}</p>
       </CardContent>
       <hr className="border-dashed" />
       <p className="text-sm text-gray-500 whitespace-nowrap pr-6 py-2 text-right">
