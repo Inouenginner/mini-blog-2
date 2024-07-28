@@ -2,10 +2,10 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "Node", //TODO:後で調べる
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
+    // "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noEmit": true,
     "forceConsistentCasingInFileNames": true,
@@ -15,11 +15,9 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "strict": true,
-    "baseUrl": ".",// 以下はshadcn/uiの設定
+    "baseUrl": ".", // 以下はshadcn/uiの設定
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"]
     }
-  },
+  }
 }
