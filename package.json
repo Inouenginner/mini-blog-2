@@ -16,6 +16,7 @@
     "@prisma/client": "^5.17.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.1",
+    "@tanstack/react-query": "^5.51.16",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@vercel/postgres": "^0.9.0",
