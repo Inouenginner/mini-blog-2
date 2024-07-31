@@ -1,25 +1,15 @@
 ---
-//　絶対消すな！！！
-import '@/styles/globals.css'
 import CreatePostButton from '../components/CreatePostButton';
 import { BlogPosts } from '@/components/BlogPosts';
 
+import Layout from '@/layouts/Layout.astro';
+
 ---
 
-<html lang="ja">
-<head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>ミニブログ</title>
-</head>
-<body class="bg-gray-100 min-h-screen p-8">
-    <main class="container mx-auto">
-        <h1 class="text-3xl font-bold mb-8 text-center">ミニブログ</h1>
-        <BlogPosts client:load/>
-    </main>
-
-	<CreatePostButton client:load/>
-</body>
-</html>
+<Layout title='ミニブログ'>
+  <main class="container mx-auto">
+    <h1 class="text-3xl font-bold mb-8 text-center">ミニブログ</h1>
+    <BlogPosts client:load/>
+    <CreatePostButton client:load/>
+  </main>
+</Layout>
