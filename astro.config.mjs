@@ -1,12 +1,15 @@
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
-
 import tailwind from "@astrojs/tailwind";
+import serviceWorker from "astrojs-service-worker";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react(), tailwind({
-    applyBaseStyles: false,
-  })]
+  integrations: [
+    react(),
+    tailwind({
+      applyBaseStyles: false,
+    }),
+    serviceWorker(),
+  ],
 });
-
