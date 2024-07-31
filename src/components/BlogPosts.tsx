@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BlogPost } from "../components/BlogPost";
-import { Loading } from "./Loading ";
+import { Loading } from "./Loading";
 
 interface Blog {
   id: number;
