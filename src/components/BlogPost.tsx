@@ -106,7 +106,15 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
       <CardContent className="flex justify-between bg-white py-4 rounded-lg items-end">
         <p className="text-gray-800 whitespace-pre-wrap">{content}</p>
         <div className="flex justify-between">
-          <Pencil size={16} strokeWidth={1} onClick={() => setEditModalId(id)} />
+          <Pencil
+            size={16}
+            strokeWidth={1}
+            onClick={() => {
+              setEditModalId(id);
+              setEditTitle(title);
+              setEditContent(content);
+            }}
+          />
           <Trash2 size={16} strokeWidth={1} onClick={() => setDeleteModalId(id)} />
         </div>
       </CardContent>
