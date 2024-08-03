@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BlogPost } from "../components/BlogPost";
 import { Loading } from "./Loading";
+import { Pagination } from "./Pagination";
 
 interface Blog {
   id: number;
@@ -13,7 +14,7 @@ export const BlogPosts: React.FC = () => {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const blogsPerPage = 20;
+  const blogsPerPage = 10;
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -48,19 +49,11 @@ export const BlogPosts: React.FC = () => {
           <BlogPost id={blog.id} title={blog.title} content={blog.content} date={blog.createdAt} />
         </div>
       ))}
-      <div className="flex justify-center mt-4">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            onClick={() => handlePageChange(page)}
-            className={`mx-1 px-3 py-1 border ${
-              currentPage === page ? "bg-blue-500 text-white" : "bg-white text-blue-500"
-            }`}
-          >
-            {page}
-          </button>
-        ))}
-      </div>
+      <Pagination
+        totalPages={totalPages}
+        currentPage={currentPage}
+        handlePageChange={handlePageChange}
+      />
     </div>
   );
 };

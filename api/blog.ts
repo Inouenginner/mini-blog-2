@@ -37,7 +37,7 @@ export async function GET(req: Request) {
   const url = new URL(req.url);
   const params = new URLSearchParams(url.search);
   const page = parseInt(params.get("page") || "1"); // 文字列 "Jonathan" です
-  const limit = parseInt(params.get("limit") || "20");
+  const limit = parseInt(params.get("limit") || "10");
   const userId = "1";
 
   try {
