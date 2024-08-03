@@ -95,18 +95,18 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
   return (
     <Card className="w-full bg-white shadow-sm border border-gray-100">
       {title && (
-        <CardHeader className="flex justify-between items-center pb-0 pt-4">
-          <div className="flex justify-between w-full">
+        <CardHeader className="items-center pb-0 pt-4">
+          <div className="w-full">
             <h2 className="text-xl font-semibold text-gray-800">{title}</h2>
-            <div className="flex justify-between">
-              <Pencil size={16} strokeWidth={1} onClick={() => setEditModalId(id)} />
-              <Trash2 size={16} strokeWidth={1} onClick={() => setDeleteModalId(id)} />
-            </div>
           </div>
         </CardHeader>
       )}
-      <CardContent className="bg-white py-4 rounded-lg">
+      <CardContent className="flex justify-between bg-white py-4 rounded-lg items-end">
         <p className="text-gray-800 whitespace-pre-wrap">{content}</p>
+        <div className="flex justify-between">
+          <Pencil size={16} strokeWidth={1} onClick={() => setEditModalId(id)} />
+          <Trash2 size={16} strokeWidth={1} onClick={() => setDeleteModalId(id)} />
+        </div>
       </CardContent>
       <hr className="border-dashed" />
       <p className="text-sm text-gray-500 whitespace-nowrap pr-6 py-2 text-right">
