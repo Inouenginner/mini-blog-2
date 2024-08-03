@@ -21,3 +21,13 @@ npx prisma migrate dev
 ## 本番ドメイン
 
 https://mini-blog-two-phi.vercel.app/
+
+## エラーシューティング
+
+P1010: User `johndoe` was denied access on the database `mydb.public`
+↓
+
+```wsl
+ps aux | grep postgres
+pkill postgres
+```
