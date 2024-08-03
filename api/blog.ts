@@ -55,20 +55,43 @@ export async function GET(req: Request) {
   }
 }
 
-export async function POST(req: Request, res: VercelResponse) {
-  const rawBody = await req.text();
-  const obj = JSON.parse(rawBody);
+export async function POST(req: Request) {
+  const url = new URL(req.url);
+  const params = new URLSearchParams(url.search);
+  const page = parseInt(params.get("page") || "1"); // 文字列 "Jonathan" です
+  const limit = parseInt(params.get("limit") || "20");
+  const userId = "1";
+
   try {
-    await prisma.blog.create({
+    const result = await getPaginatedBlogs(userId, page, limit);
+    return new Response(JSON.stringify(result), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
+  } catch (error) {
+    console.error("ブログ取得中にエラーが発生しました:", error);
+    return new Response(JSON.stringify({ error: "サーバーエラーが発生しました" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+export async function PATCH(req: Request, res: VercelResponse) {
+  const rawBody = await req.text();
+  const { id, title, content, userId } = JSON.parse(rawBody);
+  try {
+    await prisma.blog.update({
+      where: { id: parseInt(id) },
       data: {
-        title: obj.title,
-        content: obj.content,
-        userId: obj.userId,
+        title,
+        content,
+        userId,
       },
     });
     return new Response(
       JSON.stringify({
-        message: "ブログが正常に作成されました",
+        message: "ブログが正常に更新されました",
       }),
       {
         status: 201,
@@ -76,7 +99,32 @@ export async function POST(req: Request, res: VercelResponse) {
       }
     );
   } catch (error) {
-    console.error("ブログ作成中にエラーが発生しました:", error);
+    console.error("ブログ更新中にエラーが発生しました:", error);
+    return new Response(JSON.stringify({ error: "サーバーエラーが発生しました" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+}
+
+export async function DELETE(req: Request, res: VercelResponse) {
+  const rawBody = await req.text();
+  const { id } = JSON.parse(rawBody);
+  try {
+    await prisma.blog.delete({
+      where: { id: parseInt(id) },
+    });
+    return new Response(
+      JSON.stringify({
+        message: "ブログが正常に削除されました",
+      }),
+      {
+        status: 201,
+        headers: { "Content-Type": "application/json" },
+      }
+    );
+  } catch (error) {
+    console.error("ブログ削除中にエラーが発生しました:", error);
     return new Response(JSON.stringify({ error: "サーバーエラーが発生しました" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },

@@ -45,7 +45,7 @@ export const BlogPosts: React.FC = () => {
     <div className="space-y-6 flex flex-col items-center">
       {blogs.map((blog: Blog) => (
         <div key={blog.id} className="w-full max-w-md">
-          <BlogPost title={blog.title} content={blog.content} date={blog.createdAt} />
+          <BlogPost id={blog.id} title={blog.title} content={blog.content} date={blog.createdAt} />
         </div>
       ))}
       <div className="flex justify-center mt-4">
