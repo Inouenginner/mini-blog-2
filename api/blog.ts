@@ -3,45 +3,23 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function getPaginatedBlogs(userId: string, page: number, limit: number) {
-  const skip = (page - 1) * limit;
-
-  const [blogs, total] = await prisma.$transaction([
-    prisma.blog.findMany({
-      where: {
-        userId: userId,
-      },
-      skip: skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc", // 最新の投稿から順に取得
-      },
-    }),
-    prisma.blog.count({
-      where: {
-        userId: userId,
-      },
-    }),
-  ]);
-
-  return {
-    blogs,
-    total,
-    page,
-    limit,
-    totalPages: Math.ceil(total / limit),
-  };
+async function getAllBlogs(userId: string) {
+  const blogs = await prisma.blog.findMany({
+    where: {
+      userId: userId,
+    },
+    orderBy: {
+      createdAt: "desc", // 最新の投稿から順に取得
+    },
+  });
+  return blogs;
 }
 
-export async function GET(req: Request) {
-  const url = new URL(req.url);
-  const params = new URLSearchParams(url.search);
-  const page = parseInt(params.get("page") || "1"); // 文字列 "Jonathan" です
-  const limit = parseInt(params.get("limit") || "10");
+export async function GET() {
   const userId = "1";
 
   try {
-    const result = await getPaginatedBlogs(userId, page, limit);
+    const result = await getAllBlogs(userId);
     return new Response(JSON.stringify(result), {
       status: 201,
       headers: { "Content-Type": "application/json" },

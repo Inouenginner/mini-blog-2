@@ -2,9 +2,12 @@ import type { Blog } from "@/components/BlogPosts";
 import { create } from "zustand";
 
 interface BlogStore {
+  blogsPerPage: number;
   blogs: Blog[];
+  allBlogs: Blog[];
   addBlog: (newPost: Blog) => void;
-  fetchBlogs: (currentPage: number, blogsPerPage: number) => Promise<void>;
+  fetchAllBlogs: () => Promise<void>;
+  paginateBlogs: (currentPage: number) => void;
   currentPage: number;
   totalPages: number;
   setCurrentPage: (newPage: number) => void;
@@ -14,39 +17,60 @@ interface BlogStore {
 }
 
 const useBlogStore = create<BlogStore>((set, get) => ({
+  blogsPerPage: 20,
   blogs: [],
+  allBlogs: [],
   addBlog: (newBlog: Blog) => {
-    const { currentPage } = get();
-    if (currentPage === 1) {
-      set((state: { blogs: Blog[] }) => ({ blogs: [newBlog, ...state.blogs].slice(0, -1) }));
-    }
+    set((state) => ({
+      allBlogs: [newBlog, ...state.allBlogs],
+    }));
+    get().paginateBlogs(get().currentPage);
   },
-  fetchBlogs: async (currentPage: number, blogsPerPage: number) => {
+  fetchAllBlogs: async () => {
     try {
-      const response = await fetch(`/api/blog?page=${currentPage}&limit=${blogsPerPage}`);
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+      let allBlogs;
+      if (get().allBlogs.length === 0) {
+        const response = await fetch(`/api/blog`);
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        allBlogs = await response.json();
+      } else {
+        allBlogs = get().allBlogs;
       }
-      const result = await response.json();
-      set({ blogs: result.blogs });
-      set({ totalPages: Math.ceil(result.total / blogsPerPage) });
+      set({ allBlogs });
+      const blogsPerPage = get().blogsPerPage;
+      const totalPages = Math.ceil(allBlogs.length / blogsPerPage);
+      set({ totalPages });
+      get().paginateBlogs(get().currentPage);
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
   },
+  paginateBlogs: (currentPage: number) => {
+    const allBlogs = get().allBlogs;
+    const skip = (currentPage - 1) * get().blogsPerPage;
+    const paginatedBlogs = allBlogs.slice(skip, skip + get().blogsPerPage);
+    set({ blogs: paginatedBlogs });
+  },
   currentPage: 1,
   totalPages: 0,
-  setCurrentPage: (newPage: number) => set({ currentPage: newPage }),
+  setCurrentPage: (newPage: number) => {
+    set({ currentPage: newPage });
+    get().paginateBlogs(newPage);
+  },
   setTotalPages: (newTotal: number) => set({ totalPages: newTotal }),
   deleteBlog: (id: number) => {
     set((state) => ({
-      blogs: state.blogs.filter((blog) => blog.id !== id),
+      allBlogs: state.allBlogs.filter((blog) => blog.id !== id),
     }));
+    get().paginateBlogs(get().currentPage);
   },
   editBlog: (id: number, updatedBlog: Blog) => {
     set((state) => ({
-      blogs: state.blogs.map((blog) => (blog.id === id ? updatedBlog : blog)),
+      allBlogs: state.allBlogs.map((blog) => (blog.id === id ? updatedBlog : blog)),
     }));
+    get().paginateBlogs(get().currentPage);
   },
 }));
 

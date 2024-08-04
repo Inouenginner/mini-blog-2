@@ -34,7 +34,6 @@ const CreatePostButton = () => {
       const data = await response.json();
       const newObj = (({ userId, ...rest }) => rest)(data);
       addBlog(newObj); //userIdを除いた
-      alert("投稿作成が完了しました");
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }

@@ -12,14 +12,13 @@ export interface Blog {
 }
 
 export const BlogPosts: React.FC = () => {
-  const blogsPerPage = 10;
   const currentPage = useBlogStore((state) => state.currentPage);
   const blogs = useBlogStore((state) => state.blogs);
-  const fetchBlogs = useBlogStore((state) => state.fetchBlogs);
+  const fetchAllBlogs = useBlogStore((state) => state.fetchAllBlogs);
 
   useEffect(() => {
-    fetchBlogs(currentPage, blogsPerPage);
-  }, [currentPage, fetchBlogs]);
+    fetchAllBlogs();
+  }, [currentPage, fetchAllBlogs]);
 
   if (blogs.length === 0) {
     return <Loading />;
