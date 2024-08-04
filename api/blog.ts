@@ -59,22 +59,17 @@ export async function POST(req: Request, res: VercelResponse) {
   const rawBody = await req.text();
   const obj = JSON.parse(rawBody);
   try {
-    await prisma.blog.create({
+    const result = await prisma.blog.create({
       data: {
         title: obj.title,
         content: obj.content,
         userId: obj.userId,
       },
     });
-    return new Response(
-      JSON.stringify({
-        message: "ブログが正常に作成されました",
-      }),
-      {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify(result), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("ブログ作成中にエラーが発生しました:", error);
     return new Response(JSON.stringify({ error: "サーバーエラーが発生しました" }), {
@@ -88,7 +83,7 @@ export async function PATCH(req: Request, res: VercelResponse) {
   const rawBody = await req.text();
   const { id, title, content, userId } = JSON.parse(rawBody);
   try {
-    await prisma.blog.update({
+    const result = await prisma.blog.update({
       where: { id: parseInt(id) },
       data: {
         title,
@@ -96,15 +91,10 @@ export async function PATCH(req: Request, res: VercelResponse) {
         userId,
       },
     });
-    return new Response(
-      JSON.stringify({
-        message: "ブログが正常に更新されました",
-      }),
-      {
-        status: 201,
-        headers: { "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify(result), {
+      status: 201,
+      headers: { "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("ブログ更新中にエラーが発生しました:", error);
     return new Response(JSON.stringify({ error: "サーバーエラーが発生しました" }), {

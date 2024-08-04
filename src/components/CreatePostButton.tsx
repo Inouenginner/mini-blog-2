@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { CreateModal } from "./CreateModal";
+import useBlogStore from "@/store/blogStore";
 
 const CreatePostButton = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const addBlog = useBlogStore((state) => state.addBlog);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => {
@@ -30,10 +32,13 @@ const CreatePostButton = () => {
         throw new Error("Network response was not ok");
       }
       const data = await response.json();
-      alert("投稿が完了しました");
+      const newObj = (({ userId, ...rest }) => rest)(data);
+      addBlog(newObj); //userIdを除いた
+      alert("投稿作成が完了しました");
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
+
     // 処理後にモーダルを閉じる
     closeModal();
   };

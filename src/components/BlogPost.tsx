@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Pencil, Trash2 } from "lucide-react";
 import { DeleteModal } from "./DeleteModal";
 import { CreateModal } from "./CreateModal";
+import useBlogStore from "@/store/blogStore";
 
 interface BlogPostProps {
   id: number;
@@ -22,6 +23,8 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
   };
   const [editTitle, setEditTitle] = useState("");
   const [editContent, setEditContent] = useState("");
+  const deleteBlog = useBlogStore((state) => state.deleteBlog);
+  const editBlog = useBlogStore((state) => state.editBlog);
 
   const dateDate = new Date(date);
   // 日本時間に変換
@@ -62,7 +65,9 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      alert("修正が完了しました！");
+      const data = await response.json();
+      const newObj = (({ userId, ...rest }) => rest)(data);
+      editBlog(editModalId, newObj);
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
@@ -71,7 +76,6 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
   };
   const deleteSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log(e);
     if (!content) {
       throw new Error("内容は入力してください");
     }
@@ -86,7 +90,7 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      alert("投稿が完了しました");
+      deleteBlog(deleteModalId);
     } catch (error) {
       console.error("There has been a problem with your fetch operation:", error);
     }
@@ -122,7 +126,6 @@ export const BlogPost: React.FC<BlogPostProps> = ({ id, title, content, date }) 
       <p className="text-sm text-gray-500 whitespace-nowrap pr-6 py-2 text-right">
         {formattedDateTime}
       </p>
-      {/* コピペしてきたから共通化したい箇所 */}
       <CreateModal
         isModalOpen={editModalId !== -1}
         modalTitleH2="更新する"

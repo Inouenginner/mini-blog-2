@@ -17,6 +17,7 @@ npx prisma migrate dev
 | DB 周り                | Vercel Postgres, Prisma               |
 | バックエンド           | Vercel Serverless Functions           |
 | パッケージマネージャー | npm                                   |
+| 状態管理               | zustand                               |
 
 ## 本番ドメイン
 

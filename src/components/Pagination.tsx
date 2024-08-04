@@ -1,13 +1,12 @@
+import useBlogStore from "@/store/blogStore";
 import React from "react";
 
-interface PaginationProps {
-  totalPages: number;
-  currentPage: number;
-  handlePageChange: (newPage: number) => void;
-}
-
-export const Pagination: React.FC<PaginationProps> = (props) => {
-  const { totalPages, currentPage, handlePageChange } = props;
+export const Pagination: React.FC<{ currentPage: number }> = ({ currentPage }) => {
+  const totalPages = useBlogStore((state) => state.totalPages);
+  const setCurrentPage = useBlogStore((state) => state.setCurrentPage);
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
   return (
     <div className="flex justify-center mt-4">
