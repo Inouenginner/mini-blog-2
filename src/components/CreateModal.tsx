@@ -39,6 +39,7 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                   type="text"
                   id="title"
                   value={title}
+                  maxLength={21845}
                   onChange={(e) => setTitle(e.target.value)}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 />
@@ -52,7 +53,8 @@ export const CreateModal: React.FC<CreateModalProps> = ({
                   id="content"
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
-                  rows={4}
+                  rows={16}
+                  maxLength={21845}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                   required
                 ></textarea>
